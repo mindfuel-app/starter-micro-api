@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-
+const {PrismaClient} = require('@prisma/client');
+const prisma = new PrismaClient();
 const app = express()
 app.use(cors())
 
@@ -9,7 +10,16 @@ app.get('/', (req, res) => {
 })
 
 app.get('/reset-water', (req, res) => {
-    res.send('Resetting water!')
+    try{
+        const updatedValues= prisma.water.updateMany({
+            data: {
+                water: 0
+            }
+        })
+        res.json(updatedValues)
+    }catch(e){
+        console.log(e)
+    }
 })
 
 app.listen(3000, () => {
