@@ -4,10 +4,12 @@ const {PrismaClient} = require('@prisma/client/edge');
 const { withAccelerate } = require( '@prisma/extension-accelerate')
 const prisma = new PrismaClient().$extends(withAccelerate());
 const app = express()
+
 app.use(cors())
+app.use(express.static(__dirname+'/public/'));
 
 app.get('/', (req, res) => {
-    res.json({'hello': 'world'})
+    res.send('<h1>Nothing to see here</h1>')
 })
 
 app.get('/reset-water', async(req, res) => {
